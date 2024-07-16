@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image to Hash and Lookup</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="converter-container text-center">
+        <h1>Base64 to Image Converter</h1>
+        <textarea id="hashInput" class="form-control" placeholder="Nhập Base64 hoặc hash"></textarea>
+        <button class="btn btn-primary mt-3" onclick="lookupImage()">Convert to Image</button>
+        <hr>
+        <img id="imageOutput" src="" alt="Image Preview" class="img-fluid mt-3" style="max-width: 300px;">
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="scrip/js.js"></script>
+</body>
+</html>

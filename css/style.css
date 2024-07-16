@@ -1,0 +1,25 @@
+body {
+    background-color: #f8f9fa;
+}
+img{
+    width: 200rem;
+    height: 200rem;
+}
+.converter-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 50px auto;
+}
+.converter-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.converter-container textarea {
+    height: 150px;
+}
+.converter-container img {
+    margin-top: 20px;
+}
