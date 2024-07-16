@@ -20,10 +20,9 @@ function lookupImage() {
     if (imageHashMap[hash]) {
         document.getElementById('imageOutput').src = imageHashMap[hash];
     } else {
-        document.getElementById('imageOutput').src = hash; // Giả sử hash là Base64
+        alert('Hash không hợp lệ hoặc không có hình ảnh tương ứng.');
     }
 }
-
 var catEl = document.getElementById("cat");
 var startTime = new Date().getTime();
 

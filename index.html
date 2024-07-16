@@ -2,21 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Image to Hash and Lookup</title>
+    <title>Đó biết ảnh gì đấy</title>
     <!-- Thêm Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+      </div>
+    <img src="https://i.pinimg.com/originals/40/d0/38/40d0387cea623eec44dcd8cc76f88591.gif" style="max-width:200px;max-height: 200px;">
+    <img src="https://i.pinimg.com/originals/36/1a/98/361a989e387217d40ba555df33fbfea9.gif" style="position:absolute; right:0; max-width:200px; max-height:200px;">
+    
     <div class="converter-container text-center">
-        <h1>Base64 to Image Converter</h1>
-        <textarea id="hashInput" class="form-control" placeholder="Nhập Base64 hoặc hash"></textarea>
-        <button class="btn btn-primary mt-3" onclick="lookupImage()">Convert to Image</button>
+        <h1>Đó biết ảnh gì đấy</h1>
+        <textarea id="hashInput" class="form-control mt-3" placeholder="Nhập mã hoặc hash"></textarea>
+        <button class="btn btn-primary mt-3" onclick="lookupImage()">Chuyển đổi</button>
         <hr>
         <img id="imageOutput" src="" alt="Image Preview" class="img-fluid mt-3" style="max-width: 300px;">
     </div>
-    <img id="cat" src="https://i.pinimg.com/originals/af/11/94/af1194e68d6aec5d05a7152f74f7b4ab.gif" alt="Cat GIF" class="img-fluid mt-3" style="max-width: 300px;">
+    
+    <img id="cat" src="https://i.pinimg.com/originals/f8/cb/72/f8cb727656d994631eff60102acf5278.gif" alt="Cat GIF" class="img-fluid mt-3" style="max-width: 300px;">
+    <img src="https://i.pinimg.com/originals/af/11/94/af1194e68d6aec5d05a7152f74f7b4ab.gif" style="position:absolute; right:0;max-width:200px;max-height: 200px;">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-    <script src="script/js.js"></script>
+    <script>
+        let imageHashMap = JSON.parse(localStorage.getItem('imageHashMap')) || {};
+
+        function convertAndHashImage() {
+            const file = document.getElementById('fileInput').files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                const base64 = reader.result.split(',')[1]; // Lấy phần Base64 của hình ảnh
+                const hash = CryptoJS.SHA256(base64).toString(CryptoJS.enc.Hex);
+                document.getElementById('hashOutput').value = hash;
+                imageHashMap[hash] = reader.result; // Lưu trữ hash và hình ảnh tương ứng
+
+                // Lưu imageHashMap vào localStorage
+                localStorage.setItem('imageHashMap', JSON.stringify(imageHashMap));
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function lookupImage() {
+            const hash = document.getElementById('hashInput').value;
+            if (imageHashMap[hash]) {
+                document.getElementById('imageOutput').src = imageHashMap[hash];
+            } else {
+                document.getElementById('imageOutput').src = ''; // Nếu không tìm thấy hash thì để trống
+            }
+        }
+
+        var catEl = document.getElementById("cat");
+        var startTime = new Date().getTime();
+
+        var walkTheCat = function() {
+            var currTime = new Date().getTime();
+            var secondsElapsed = ((currTime - startTime) / 1000);
+            // Đoạn mã này chưa thực hiện gì, bạn có thể thêm chức năng nếu cần
+        };
+
+        walkTheCat();
+    </script>
 </body>
 </html>
