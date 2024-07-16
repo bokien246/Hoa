@@ -5,6 +5,10 @@ img{
     width: 200rem;
     height: 200rem;
 }
+#cat {
+    position: absolute;
+    left: 0px;
+}
 .converter-container {
     background: #fff;
     padding: 30px;
