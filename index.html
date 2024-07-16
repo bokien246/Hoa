@@ -3,12 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Đó biết ảnh gì đấy</title>
-    <!-- Thêm Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // Cấu hình Firebase của bạn
+        var firebaseConfig = {
+            apiKey: "API_KEY",
+            authDomain: "PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://PROJECT_ID.firebaseio.com",
+            projectId: "PROJECT_ID",
+            storageBucket: "PROJECT_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID",
+            measurementId: "G-MEASUREMENT_ID"
+        };
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+    </script>
 </head>
 <body>
     <div class="snowflakes" aria-hidden="true">
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
         <div class="snowflake">❅</div>
@@ -39,8 +58,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script>
-        let imageHashMap = JSON.parse(localStorage.getItem('imageHashMap')) || {};
-
         function convertAndHashImage() {
             const file = document.getElementById('fileInput').files[0];
             if (!file) {
@@ -52,22 +69,23 @@
                 const base64 = reader.result.split(',')[1]; // Lấy phần Base64 của hình ảnh
                 const hash = CryptoJS.SHA256(base64).toString(CryptoJS.enc.Hex);
                 document.getElementById('hashOutput').value = hash;
-                imageHashMap[hash] = reader.result; // Lưu trữ hash và hình ảnh tương ứng
-
-                // Lưu imageHashMap vào localStorage
-                localStorage.setItem('imageHashMap', JSON.stringify(imageHashMap));
+                database.ref('images/' + hash).set({
+                    image: reader.result
+                });
             };
             reader.readAsDataURL(file);
         }
 
         function lookupImage() {
             const hash = document.getElementById('hashInput').value;
-            if (imageHashMap[hash]) {
-                document.getElementById('imageOutput').src = imageHashMap[hash];
-            } else {
-                document.getElementById('imageOutput').src = ''; // Nếu không tìm thấy hash thì để trống
-                alert("Không tìm thấy hình ảnh với mã hash này.");
-            }
+            database.ref('images/' + hash).once('value').then(function(snapshot) {
+                if (snapshot.exists()) {
+                    document.getElementById('imageOutput').src = snapshot.val().image;
+                } else {
+                    document.getElementById('imageOutput').src = ''; // Nếu không tìm thấy hash thì để trống
+                    alert("Không tìm thấy hình ảnh với mã hash này.");
+                }
+            });
         }
 
         var catEl = document.getElementById("cat");
@@ -80,6 +98,14 @@
         };
 
         walkTheCat();
+localStorage.setItem('key', 'value');
+const value = localStorage.getItem('key');
+console.log(value);
+
+localStorage.removeItem('key');
+
+localStorage.clear();   
+
     </script>
 </body>
 </html>
