@@ -19,14 +19,15 @@
         <div class="snowflake">❆</div>
         <div class="snowflake">❅</div>
         <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
       </div>
     <img src="https://i.pinimg.com/originals/40/d0/38/40d0387cea623eec44dcd8cc76f88591.gif" style="max-width:200px;max-height: 200px;">
     <img src="https://i.pinimg.com/originals/36/1a/98/361a989e387217d40ba555df33fbfea9.gif" style="position:absolute; right:0; max-width:200px; max-height:200px;">
     
     <div class="converter-container text-center">
         <h1>Đó biết ảnh gì đấy</h1>
+        <input type="file" id="fileInput" class="form-control-file">
+        <button class="btn btn-primary mt-3" onclick="convertAndHashImage()">Tải ảnh lên và Hash</button>
+        <textarea id="hashOutput" class="form-control mt-3" placeholder="Hash sẽ hiển thị ở đây"></textarea>
         <textarea id="hashInput" class="form-control mt-3" placeholder="Nhập mã hoặc hash"></textarea>
         <button class="btn btn-primary mt-3" onclick="lookupImage()">Chuyển đổi</button>
         <hr>
@@ -42,6 +43,10 @@
 
         function convertAndHashImage() {
             const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                alert("Vui lòng chọn một file ảnh.");
+                return;
+            }
             const reader = new FileReader();
             reader.onload = function() {
                 const base64 = reader.result.split(',')[1]; // Lấy phần Base64 của hình ảnh
@@ -61,6 +66,7 @@
                 document.getElementById('imageOutput').src = imageHashMap[hash];
             } else {
                 document.getElementById('imageOutput').src = ''; // Nếu không tìm thấy hash thì để trống
+                alert("Không tìm thấy hình ảnh với mã hash này.");
             }
         }
 
